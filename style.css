@@ -497,4 +497,31 @@ h1 span{color:#705538}
     animation-iteration-count:1!important;
     transition-duration:.01ms!important;
   }
+  /* ===== SUBMIT MARKAH ===== */
+.submit-score-btn{
+  width:100%;
+  min-height:56px;
+  margin-top:4px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(180deg,#d5a938,#a9791f);
+  color:#fffdf0;
+  font-weight:1000;
+  letter-spacing:.04em;
+  box-shadow:0 5px 0 #73531c;
+  cursor:pointer;
+}
+.submit-score-btn:hover{filter:brightness(1.05)}
+.submit-score-btn:disabled{cursor:default;opacity:.78}
+.submit-status{
+  min-height:38px;
+  padding:10px 6px 2px;
+  font-weight:900;
+  font-size:.9rem;
+  color:#756d58;
+}
+.submit-status.sending{color:#7b6a35}
+.submit-status.success{color:#347343}
+.submit-status.error{color:#a04435}
+#restartBtn{margin-top:10px}
 }
