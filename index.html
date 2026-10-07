@@ -1,161 +1,170 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#123b2a" />
-  <title>Ekspedisi Rimba Kata — Sinonim & Antonim Tahun 5</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="theme-color" content="#173b2c">
+  <title>Rimba Kata RPG — Tahun 5</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="forest-scene" aria-hidden="true">
-    <div class="sun"></div>
-    <div class="mountain m1"></div>
-    <div class="mountain m2"></div>
-    <div class="mist mist1"></div>
-    <div class="mist mist2"></div>
-    <div class="leaf leaf1">🍃</div>
-    <div class="leaf leaf2">🍂</div>
-    <div class="leaf leaf3">🍃</div>
-    <div class="leaf leaf4">🌿</div>
-  </div>
+<main class="game-wrap">
 
-  <main class="app-shell">
-    <section id="startScreen" class="screen active">
-      <div class="adventure-card">
-        <div class="eyebrow">Bahasa Melayu Tahun 5</div>
-        <div class="crest">🧭</div>
-        <h1>Ekspedisi<br><span>Rimba Kata</span></h1>
-        <p class="subtitle">Misi Sinonim & Antonim</p>
+  <section id="start" class="screen active">
+    <div class="scene start-scene">
+      <svg class="world" viewBox="0 0 1200 720" aria-hidden="true">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#9fd6db"/>
+            <stop offset="1" stop-color="#e7e2b4"/>
+          </linearGradient>
+          <linearGradient id="hill" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5b8a5c"/>
+            <stop offset="1" stop-color="#28523c"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="720" fill="url(#sky)"/>
+        <circle cx="980" cy="130" r="72" fill="#f7d879" opacity=".82"/>
+        <path d="M0 430 C150 300 330 360 470 250 C650 120 760 350 920 250 C1060 165 1120 260 1200 215 V720 H0Z" fill="#6f9a69" opacity=".65"/>
+        <path d="M0 510 C160 360 280 490 430 350 C560 230 690 470 850 340 C1010 210 1100 395 1200 320 V720 H0Z" fill="url(#hill)"/>
+        <path d="M0 610 C220 560 320 600 520 545 C700 495 840 610 1200 540 V720 H0Z" fill="#173d2c"/>
+        <path d="M530 720 C560 600 640 520 710 470 C770 430 840 400 900 360" fill="none" stroke="#d2b57d" stroke-width="70" stroke-linecap="round" opacity=".82"/>
+        <g fill="#214b35">
+          <circle cx="90" cy="420" r="110"/><rect x="72" y="430" width="35" height="210" rx="12"/>
+          <circle cx="1120" cy="390" r="130"/><rect x="1100" y="405" width="40" height="240" rx="12"/>
+          <circle cx="250" cy="480" r="85"/><rect x="238" y="495" width="25" height="160" rx="10"/>
+          <circle cx="980" cy="500" r="90"/><rect x="965" y="505" width="28" height="150" rx="10"/>
+        </g>
+        <g id="explorer">
+          <circle cx="405" cy="520" r="34" fill="#d6a677"/>
+          <path d="M365 515 Q405 470 447 515" fill="#7e5d36"/>
+          <rect x="372" y="555" width="70" height="95" rx="28" fill="#d09b3f"/>
+          <rect x="358" y="570" width="28" height="78" rx="14" fill="#d6a677"/>
+          <rect x="430" y="570" width="28" height="78" rx="14" fill="#d6a677"/>
+          <rect x="380" y="640" width="22" height="68" rx="10" fill="#39483f"/>
+          <rect x="414" y="640" width="22" height="68" rx="10" fill="#39483f"/>
+          <path d="M362 490 h86 l-17 -28 h-51z" fill="#8b6738"/>
+          <rect x="360" y="487" width="90" height="12" rx="6" fill="#5c452a"/>
+          <circle cx="395" cy="522" r="3" fill="#2e2a24"/>
+          <circle cx="416" cy="522" r="3" fill="#2e2a24"/>
+          <path d="M396 538 Q405 545 416 538" fill="none" stroke="#6e4934" stroke-width="3"/>
+          <rect x="438" y="558" width="30" height="55" rx="10" fill="#6e4f32"/>
+        </g>
+        <g id="temple" transform="translate(820 250)">
+          <path d="M0 170 L120 20 L240 170 Z" fill="#6e7052"/>
+          <rect x="35" y="155" width="170" height="150" fill="#565c43"/>
+          <rect x="92" y="190" width="55" height="115" rx="26" fill="#1c3025"/>
+          <circle cx="120" cy="125" r="34" fill="#c7a54f"/>
+          <path d="M120 102 l9 18 20 3-15 14 4 20-18-10-18 10 4-20-15-14 20-3z" fill="#fff0a8"/>
+        </g>
+      </svg>
 
-        <div class="map-strip">
-          <div class="map-stop active">
-            <span>🌿</span>
-            <small>Hutan Sinonim</small>
-          </div>
-          <div class="trail"></div>
-          <div class="map-stop">
-            <span>🌊</span>
-            <small>Sungai Antonim</small>
-          </div>
-          <div class="trail"></div>
-          <div class="map-stop">
-            <span>⛰️</span>
-            <small>Gunung Makna</small>
-          </div>
+      <div class="title-panel">
+        <div class="tag">BAHASA MELAYU TAHUN 5</div>
+        <h1>RIMBA <span>KATA</span></h1>
+        <p class="lead">Ekspedisi Sinonim & Antonim</p>
+        <div class="story">
+          <span class="portrait">🧙‍♂️</span>
+          <p><b>Penjaga Rimba:</b> Raja Keliru telah mencuri Kristal Makna. Kamu perlu menawan tiga kawasan untuk mengembalikannya!</p>
         </div>
-
-        <div class="story-box">
-          <p>Rimba Kata kehilangan kuasa bahasanya selepas diserang <b>Raja Keliru</b>. Lengkapkan tiga kawasan ekspedisi dan pulihkan semula khazanah perkataan!</p>
-        </div>
-
-        <form id="playerForm" class="player-form">
-          <label>
-            <span>Nama Pengembara</span>
-            <input id="playerName" type="text" maxlength="40" placeholder="Contoh: Aiman" required />
-          </label>
-          <label>
-            <span>Kelas</span>
-            <input id="playerClass" type="text" maxlength="30" placeholder="Contoh: 5 Ibnu Battuta" required />
-          </label>
-          <button class="btn primary" type="submit">MULAKAN EKSPEDISI 🧭</button>
+        <form id="playerForm" class="start-form">
+          <input id="nameInput" placeholder="Nama pengembara" required>
+          <input id="classInput" placeholder="Kelas" required>
+          <button type="submit">MULA PENGEMBARAAN</button>
         </form>
-
-        <p class="tiny">Cadangan: buka di telefon dan gunakan fon kepala untuk pengalaman lebih menarik.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="gameScreen" class="screen">
-      <div class="hud">
-        <div class="hud-left">
-          <div id="missionName" class="mission-name">Hutan Sinonim</div>
-          <div id="playerInfo" class="player-info"></div>
-        </div>
+  <section id="game" class="screen">
+    <div id="zoneScene" class="scene zone forest-zone">
+      <div class="zone-art" id="zoneArt"></div>
 
-        <div class="hud-stats">
-          <div class="stat-pill"><span>❤️</span><b id="lives">3</b></div>
-          <div class="stat-pill"><span>⭐</span><b id="score">0</b></div>
-          <div class="stat-pill"><span>🔥</span><b id="combo">0</b></div>
+      <header class="hud">
+        <div class="player-chip">
+          <span class="avatar">🧭</span>
+          <div><b id="playerNameHud">Pengembara</b><small id="zoneName">Hutan Sinonim</small></div>
         </div>
+        <div class="hud-right">
+          <span>❤️ <b id="life">3</b></span>
+          <span>⭐ <b id="score">0</b></span>
+          <span>🔥 <b id="combo">0</b></span>
+        </div>
+      </header>
+
+      <div class="quest-path">
+        <div class="node active" id="node1">🌿</div>
+        <div class="line"></div>
+        <div class="node" id="node2">🌊</div>
+        <div class="line"></div>
+        <div class="node" id="node3">👹</div>
       </div>
 
-      <div class="journey-card">
-        <div class="mini-map">
-          <div class="mini-map-top">
-            <span id="stageIcon">🌿</span>
-            <div>
-              <small>Lokasi semasa</small>
-              <strong id="stageLabel">HUTAN SINONIM</strong>
-            </div>
-          </div>
-          <div class="progress-wrap" aria-label="Kemajuan ekspedisi">
-            <div id="progressBar" class="progress-bar"></div>
+      <div class="battle-stage">
+        <div class="npc-card">
+          <div id="npcEmoji" class="npc-emoji">🧚</div>
+          <div class="speech">
+            <small id="stageType">MISI 1 • SINONIM</small>
+            <strong id="question">Soalan...</strong>
+            <span id="hint">Pilih jawapan yang tepat.</span>
           </div>
         </div>
 
-        <div class="question-panel">
-          <div class="question-meta">
-            <span id="questionCount">Soalan 1 / 10</span>
-            <span id="missionType">SINONIM</span>
-          </div>
+        <div id="answers" class="answers"></div>
 
-          <div class="totem">🗿</div>
-          <h2 id="questionText">Soalan akan muncul di sini.</h2>
-          <p id="questionHint" class="question-hint"></p>
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+        <button id="nextBtn" class="next hidden">TERUSKAN MISI ➜</button>
 
-          <div id="answerGrid" class="answer-grid"></div>
-
-          <div id="feedback" class="feedback" aria-live="polite"></div>
-          <button id="nextBtn" class="btn primary hidden" type="button">TERUSKAN ➜</button>
+        <div class="quest-progress">
+          <div id="progressFill"></div>
         </div>
+        <small id="counter">1 / 10</small>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="transitionScreen" class="screen">
-      <div class="adventure-card transition-card">
-        <div id="transitionIcon" class="big-icon">🌿✨</div>
-        <div id="transitionBadge" class="eyebrow">KAWASAN SELESAI</div>
-        <h2 id="transitionTitle">Hebat!</h2>
-        <p id="transitionText"></p>
-
-        <div class="reward-box">
+  <section id="transition" class="screen">
+    <div class="scene reward-scene">
+      <div class="reward-modal">
+        <div id="rewardIcon" class="reward-icon">🌿✨</div>
+        <div class="tag">KAWASAN DITAWAN</div>
+        <h2 id="rewardTitle">Gerbang Daun Terbuka!</h2>
+        <p id="rewardText">Kamu berjaya melepasi kawasan ini.</p>
+        <div class="loot">
           <span>🎒</span>
-          <div>
-            <small>Ganjaran ekspedisi</small>
-            <strong id="rewardText">+1 nyawa untuk perjalanan seterusnya</strong>
-          </div>
+          <div><small>GANJARAN</small><b id="lootText">+1 nyawa</b></div>
         </div>
-
-        <button id="continueBtn" class="btn primary" type="button">MASUK KAWASAN SETERUSNYA</button>
+        <button id="continueBtn">TERUSKAN EKSPEDISI</button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="resultScreen" class="screen">
-      <div class="adventure-card result-card">
-        <div class="trophy-wrap">🏆</div>
-        <div class="eyebrow">EKSPEDISI TAMAT</div>
-        <h2 id="resultTitle">Rimba Kata Diselamatkan!</h2>
-        <p id="resultPlayer"></p>
+  <section id="result" class="screen">
+    <div class="scene victory-scene">
+      <div class="victory-panel">
+        <div class="crown">🏆</div>
+        <div class="tag">EKSPEDISI TAMAT</div>
+        <h2>Rimba Kata Diselamatkan!</h2>
+        <p id="finalPlayer"></p>
+        <div class="final-score"><b id="finalScore">0</b><span>/100</span></div>
+        <div id="rank" class="rank">Wira Rimba Kata</div>
+        <p id="finalMsg"></p>
 
-        <div class="result-score">
-          <span id="finalScore">0</span>
-          <small>/100</small>
+        <div class="summary">
+          <div>✅ <b id="correct">0</b><small>Betul</small></div>
+          <div>❌ <b id="wrong">0</b><small>Salah</small></div>
+          <div>🔥 <b id="bestCombo">0</b><small>Combo Terbaik</small></div>
         </div>
 
-        <div id="rankBadge" class="rank-badge">Penjaga Rimba Kata</div>
-        <p id="resultMessage"></p>
+        <button id="submitScoreBtn" class="submit-score-btn">📤 HANTAR MARKAH KEPADA GURU</button>
+        <div id="submitStatus" class="submit-status" aria-live="polite"></div>
 
-        <div class="result-stats">
-          <div><span>✅</span><b id="correctTotal">0</b><small>Betul</small></div>
-          <div><span>❌</span><b id="wrongTotal">0</b><small>Salah</small></div>
-          <div><span>🔥</span><b id="bestCombo">0</b><small>Combo Terbaik</small></div>
-        </div>
-
-        <button id="restartBtn" class="btn primary" type="button">🔄 ULANG EKSPEDISI</button>
+        <button id="restartBtn">🔄 ULANG EKSPEDISI</button>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <script src="script.js"></script>
+</main>
+<script src="script.js"></script>
 </body>
 </html>

@@ -53,21 +53,270 @@ const missions=[
 
 const $=id=>document.getElementById(id);
 let player={name:"",cls:""},mi=0,qi=0,score=0,life=3,combo=0,best=0,correct=0,wrong=0,locked=false;
+let finalScoreValue=0;
+let scoreSubmitted=false;
+
 const screens={start:$("start"),game:$("game"),transition:$("transition"),result:$("result")};
 
-function show(id){Object.values(screens).forEach(s=>s.classList.remove("active"));screens[id].classList.add("active");window.scrollTo(0,0)}
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function tone(f,d=.12,type="triangle"){try{let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.type=type;g.gain.value=.04;o.connect(g);g.connect(c.destination);o.start();setTimeout(()=>{o.stop();c.close()},d*1000)}catch(e){}}
-function goodSound(){[520,700,900].forEach((f,i)=>setTimeout(()=>tone(f,.1),i*90))}
-function badSound(){tone(170,.2,"sawtooth")}
-function reset(){mi=qi=score=combo=best=correct=wrong=0;life=3;locked=false;missions.forEach(m=>m.questions=shuffle(m.questions))}
-function updateNodes(){["node1","node2","node3"].forEach((id,i)=>{let n=$(id);n.classList.toggle("done",i<mi);n.classList.toggle("active",i===mi)})}
+function show(id){
+  Object.values(screens).forEach(s=>s.classList.remove("active"));
+  screens[id].classList.add("active");
+  window.scrollTo(0,0);
+}
 
-async function hantarKeGoogleSheet(markahAkhir){
+function shuffle(a){
+  a=[...a];
+  for(let i=a.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function tone(f,d=.12,type="triangle"){
+  try{
+    let c=new(window.AudioContext||window.webkitAudioContext)(),
+        o=c.createOscillator(),
+        g=c.createGain();
+    o.frequency.value=f;
+    o.type=type;
+    g.gain.value=.04;
+    o.connect(g);
+    g.connect(c.destination);
+    o.start();
+    setTimeout(()=>{o.stop();c.close()},d*1000);
+  }catch(e){}
+}
+
+function goodSound(){
+  [520,700,900].forEach((f,i)=>setTimeout(()=>tone(f,.1),i*90));
+}
+
+function badSound(){
+  tone(170,.2,"sawtooth");
+}
+
+function reset(){
+  mi=0;
+  qi=0;
+  score=0;
+  life=3;
+  combo=0;
+  best=0;
+  correct=0;
+  wrong=0;
+  locked=false;
+  finalScoreValue=0;
+  scoreSubmitted=false;
+
+  missions.forEach(m=>m.questions=shuffle(m.questions));
+
+  if($("submitStatus")){
+    $("submitStatus").textContent="";
+    $("submitStatus").className="submit-status";
+  }
+
+  if($("submitScoreBtn")){
+    $("submitScoreBtn").disabled=false;
+    $("submitScoreBtn").textContent="📤 HANTAR MARKAH KEPADA GURU";
+  }
+}
+
+function updateNodes(){
+  ["node1","node2","node3"].forEach((id,i)=>{
+    let n=$(id);
+    n.classList.toggle("done",i<mi);
+    n.classList.toggle("active",i===mi);
+  });
+}
+
+function render(){
+  locked=false;
+
+  let m=missions[mi],
+      q=m.questions[qi];
+
+  $("zoneScene").className="scene zone "+m.zone;
+  $("playerNameHud").textContent=player.name;
+  $("zoneName").textContent=m.name;
+
+  $("life").textContent=life;
+  $("score").textContent=score;
+  $("combo").textContent=combo;
+
+  $("npcEmoji").textContent=m.npc;
+  $("stageType").textContent=m.type;
+  $("question").textContent=q[0];
+
+  $("hint").textContent=
+    mi===0
+      ?"Cari perkataan yang sama atau hampir sama maksud."
+      :mi===1
+      ?"Cari perkataan yang berlawanan maksud."
+      :"Baca ayat dan pilih jawapan terbaik.";
+
+  $("feedback").textContent="";
+  $("feedback").className="feedback";
+  $("nextBtn").classList.add("hidden");
+
+  $("counter").textContent=`${qi+1} / ${m.questions.length}`;
+
+  let total=missions.reduce((n,x)=>n+x.questions.length,0),
+      before=missions.slice(0,mi).reduce((n,x)=>n+x.questions.length,0);
+
+  $("progressFill").style.width=`${((before+qi)/total)*100}%`;
+
+  updateNodes();
+
+  let box=$("answers");
+  box.innerHTML="";
+
+  shuffle(q[2]).forEach(opt=>{
+    let b=document.createElement("button");
+    b.className="answer";
+    b.textContent=opt;
+    b.addEventListener("click",()=>answer(b,opt,q[1]));
+    box.appendChild(b);
+  });
+}
+
+function answer(btn,opt,ans){
+  if(locked)return;
+  locked=true;
+
+  let bs=[...document.querySelectorAll(".answer")];
+  bs.forEach(b=>b.disabled=true);
+
+  if(opt===ans){
+    btn.classList.add("correct");
+    combo++;
+    best=Math.max(best,combo);
+
+    let bonus=Math.min(combo-1,5)*2;
+    score+=10+bonus;
+    correct++;
+
+    $("feedback").textContent=
+      bonus
+        ?`✅ Tepat! +10 mata +${bonus} combo.`
+        :"✅ Tepat! Laluan terbuka.";
+
+    $("feedback").classList.add("good");
+    goodSound();
+  }else{
+    btn.classList.add("wrong");
+
+    bs.forEach(b=>{
+      if(b.textContent===ans)b.classList.add("correct");
+    });
+
+    wrong++;
+    combo=0;
+    life=Math.max(0,life-1);
+
+    $("feedback").textContent=`❌ Belum tepat. Jawapan betul: ${ans}.`;
+    $("feedback").classList.add("bad");
+    badSound();
+  }
+
+  $("life").textContent=life;
+  $("score").textContent=score;
+  $("combo").textContent=combo;
+
+  $("nextBtn").classList.remove("hidden");
+}
+
+function next(){
+  let m=missions[mi];
+
+  if(qi<m.questions.length-1){
+    qi++;
+    render();
+    return;
+  }
+
+  if(mi<missions.length-1){
+    $("rewardIcon").textContent=m.rewardIcon;
+    $("rewardTitle").textContent=m.rewardTitle;
+    $("rewardText").textContent=`Kamu berjaya menamatkan ${m.name}.`;
+    $("lootText").textContent=m.loot;
+    show("transition");
+    return;
+  }
+
+  finish();
+}
+
+function continueGame(){
+  mi++;
+  qi=0;
+  life=Math.min(3,life+1);
+  show("game");
+  render();
+}
+
+function finish(){
+  let total=correct+wrong;
+  let accuracy=total ? Math.round(correct/total*100) : 0;
+
+  finalScoreValue=Math.min(
+    100,
+    Math.round(
+      accuracy*.88 +
+      Math.min(best*2,16)*.75
+    )
+  );
+
+  let rank="Pengembara Kata";
+  let msg="Teruskan latihan untuk menguasai rimba perkataan.";
+
+  if(finalScoreValue>=90){
+    rank="Legenda Rimba Kata";
+    msg="Luar biasa! Kamu menguasai sinonim dan antonim dengan sangat baik.";
+  }else if(finalScoreValue>=75){
+    rank="Wira Rimba Kata";
+    msg="Hebat! Raja Keliru berjaya ditewaskan.";
+  }else if(finalScoreValue>=60){
+    rank="Penjaga Rimba Kata";
+    msg="Bagus! Sedikit lagi untuk menjadi Wira Rimba Kata.";
+  }
+
+  $("finalPlayer").textContent=`${player.name} • ${player.cls}`;
+  $("finalScore").textContent=finalScoreValue;
+  $("rank").textContent=rank;
+  $("finalMsg").textContent=msg;
+  $("correct").textContent=correct;
+  $("wrong").textContent=wrong;
+  $("bestCombo").textContent=best;
+
+  scoreSubmitted=false;
+  $("submitStatus").textContent="Tekan butang di bawah untuk menghantar markah.";
+  $("submitStatus").className="submit-status";
+  $("submitScoreBtn").disabled=false;
+  $("submitScoreBtn").textContent="📤 HANTAR MARKAH KEPADA GURU";
+
+  show("result");
+
+  [523,659,784,1047].forEach((f,i)=>
+    setTimeout(()=>tone(f,.16),i*120)
+  );
+}
+
+async function submitScore(){
+  if(scoreSubmitted)return;
+
+  const btn=$("submitScoreBtn");
+  const status=$("submitStatus");
+
+  btn.disabled=true;
+  btn.textContent="⏳ MENGHANTAR...";
+  status.textContent="Sedang menghantar keputusan...";
+  status.className="submit-status sending";
+
   const payload={
     nama:player.name,
     kelas:player.cls,
-    markah:markahAkhir,
+    markah:finalScoreValue,
     betul:correct,
     salah:wrong,
     combo:best
@@ -77,91 +326,50 @@ async function hantarKeGoogleSheet(markahAkhir){
     await fetch(SHEET_API_URL,{
       method:"POST",
       mode:"no-cors",
-      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      headers:{
+        "Content-Type":"text/plain;charset=utf-8"
+      },
       body:JSON.stringify(payload)
     });
-    console.log("Keputusan dihantar ke Google Sheets.");
-  }catch(err){
-    console.error("Gagal menghantar keputusan:",err);
+
+    scoreSubmitted=true;
+    btn.textContent="✅ MARKAH TELAH DIHANTAR";
+    status.textContent="✅ Markah telah dihantar kepada guru.";
+    status.className="submit-status success";
+    goodSound();
+
+  }catch(error){
+    console.error("Gagal menghantar markah:",error);
+
+    scoreSubmitted=false;
+    btn.disabled=false;
+    btn.textContent="🔁 CUBA HANTAR SEMULA";
+    status.textContent="❌ Markah gagal dihantar. Semak sambungan internet dan cuba lagi.";
+    status.className="submit-status error";
+    badSound();
   }
 }
 
-function render(){
- locked=false;
- let m=missions[mi],q=m.questions[qi];
- $("zoneScene").className="scene zone "+m.zone;
- $("playerNameHud").textContent=player.name;
- $("zoneName").textContent=m.name;
- $("life").textContent=life;$("score").textContent=score;$("combo").textContent=combo;
- $("npcEmoji").textContent=m.npc;$("stageType").textContent=m.type;$("question").textContent=q[0];
- $("hint").textContent=mi===0?"Cari perkataan yang sama atau hampir sama maksud.":mi===1?"Cari perkataan yang berlawanan maksud.":"Baca ayat dan pilih jawapan terbaik.";
- $("feedback").textContent="";$("feedback").className="feedback";$("nextBtn").classList.add("hidden");
- $("counter").textContent=`${qi+1} / ${m.questions.length}`;
- let total=missions.reduce((n,x)=>n+x.questions.length,0),before=missions.slice(0,mi).reduce((n,x)=>n+x.questions.length,0);
- $("progressFill").style.width=`${((before+qi)/total)*100}%`;
- updateNodes();
- let box=$("answers");box.innerHTML="";
- shuffle(q[2]).forEach(opt=>{
-   let b=document.createElement("button");b.className="answer";b.textContent=opt;
-   b.addEventListener("click",()=>answer(b,opt,q[1]));box.appendChild(b)
- })
-}
-
-function answer(btn,opt,ans){
- if(locked)return;locked=true;
- let bs=[...document.querySelectorAll(".answer")];bs.forEach(b=>b.disabled=true);
- if(opt===ans){
-   btn.classList.add("correct");combo++;best=Math.max(best,combo);let bonus=Math.min(combo-1,5)*2;score+=10+bonus;correct++;
-   $("feedback").textContent=bonus?`✅ Tepat! +10 mata +${bonus} combo.`:"✅ Tepat! Laluan terbuka."; $("feedback").classList.add("good");goodSound()
- }else{
-   btn.classList.add("wrong");bs.forEach(b=>{if(b.textContent===ans)b.classList.add("correct")});wrong++;combo=0;life=Math.max(0,life-1);
-   $("feedback").textContent=`❌ Belum tepat. Jawapan betul: ${ans}.`; $("feedback").classList.add("bad");badSound()
- }
- $("life").textContent=life;$("score").textContent=score;$("combo").textContent=combo;$("nextBtn").classList.remove("hidden")
-}
-
-function next(){
- let m=missions[mi];
- if(qi<m.questions.length-1){qi++;render();return}
- if(mi<missions.length-1){
-   $("rewardIcon").textContent=m.rewardIcon;$("rewardTitle").textContent=m.rewardTitle;$("rewardText").textContent=`Kamu berjaya menamatkan ${m.name}.`;
-   $("lootText").textContent=m.loot;show("transition");return
- }
- finish()
-}
-
-function continueGame(){mi++;qi=0;life=Math.min(3,life+1);show("game");render()}
-
-function finish(){
- let total=correct+wrong,
-     accuracy=total?Math.round(correct/total*100):0,
-     final=Math.min(100,Math.round(accuracy*.88+Math.min(best*2,16)*.75));
-
- let rank="Pengembara Kata",msg="Teruskan latihan untuk menguasai rimba perkataan.";
- if(final>=90){rank="Legenda Rimba Kata";msg="Luar biasa! Kamu menguasai sinonim dan antonim dengan sangat baik."}
- else if(final>=75){rank="Wira Rimba Kata";msg="Hebat! Raja Keliru berjaya ditewaskan."}
- else if(final>=60){rank="Penjaga Rimba Kata";msg="Bagus! Sedikit lagi untuk menjadi Wira Rimba Kata."}
-
- $("finalPlayer").textContent=`${player.name} • ${player.cls}`;
- $("finalScore").textContent=final;
- $("rank").textContent=rank;
- $("finalMsg").textContent=msg;
- $("correct").textContent=correct;
- $("wrong").textContent=wrong;
- $("bestCombo").textContent=best;
-
- show("result");
- hantarKeGoogleSheet(final);
-
- [523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.16),i*120))
-}
-
 $("playerForm").addEventListener("submit",e=>{
- e.preventDefault();
- player={name:$("nameInput").value.trim(),cls:$("classInput").value.trim()};
- if(!player.name||!player.cls)return;
- reset();show("game");render()
+  e.preventDefault();
+
+  player={
+    name:$("nameInput").value.trim(),
+    cls:$("classInput").value.trim()
+  };
+
+  if(!player.name||!player.cls)return;
+
+  reset();
+  show("game");
+  render();
 });
+
 $("nextBtn").addEventListener("click",next);
 $("continueBtn").addEventListener("click",continueGame);
-$("restartBtn").addEventListener("click",()=>show("start"));
+$("submitScoreBtn").addEventListener("click",submitScore);
+
+$("restartBtn").addEventListener("click",()=>{
+  reset();
+  show("start");
+});
