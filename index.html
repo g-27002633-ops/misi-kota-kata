@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#234936">
+<title>Ekspedisi Rimba Kata</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --deep:#173b2b;--green:#2f6a4a;--green2:#6f9d72;--cream:#f8f2dc;--cream2:#efe6c4;
+  --gold:#d2a547;--brown:#6d5231;--ink:#284237;--muted:#718076;--good:#3f7e49;--bad:#a34e40
+}
+html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:#214b38;color:var(--ink)}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 82% 8%,rgba(255,229,135,.85) 0 5%,transparent 6%),
+    linear-gradient(180deg,#a9d4c8 0 29%,#7ca57b 29% 54%,#2b5b43 54% 100%);
+  overflow-x:hidden
+}
+button,input{font:inherit}
+.bg-hills{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.hill{position:absolute;border-radius:50%;filter:none}
+.hill.a{width:70vw;height:38vw;left:-15vw;top:22vh;background:#7da279;opacity:.7}
+.hill.b{width:72vw;height:40vw;right:-20vw;top:18vh;background:#4d795a;opacity:.72}
+.hill.c{width:95vw;height:40vw;left:5vw;bottom:-15vw;background:#183f2d;opacity:.9}
+.tree{position:absolute;bottom:14%;width:70px;height:210px;background:#234d36;border-radius:20px}
+.tree:before{content:"";position:absolute;width:160px;height:160px;border-radius:50%;background:#2d6545;left:-45px;top:-90px}
+.tree.t1{left:5%}.tree.t2{right:6%;transform:scale(1.15)}
+.leaf{position:absolute;font-size:28px;opacity:.45;animation:fall 10s linear infinite}
+.leaf.l1{left:8%;top:-10%;}.leaf.l2{left:38%;top:-15%;animation-delay:3s}.leaf.l3{left:76%;top:-12%;animation-delay:6s}
+@keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
+
+.app{position:relative;z-index:2;width:min(100%,760px);margin:auto;padding:16px}
+.screen{display:none;min-height:calc(100vh - 32px);align-items:center;justify-content:center}
+.screen.active{display:flex}
+
+.card{
+  width:100%;
+  background:linear-gradient(180deg,rgba(252,248,230,.98),rgba(239,234,207,.98));
+  border:2px solid rgba(255,255,255,.7);
+  box-shadow:0 24px 70px rgba(11,43,30,.3);
+  border-radius:30px;
+  padding:26px;
+}
+.center{text-align:center}
+.tag{
+  display:inline-block;padding:8px 13px;border-radius:999px;background:#e8ddb1;border:1px solid #c7b678;
+  color:#6e5b31;font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase
+}
+.compass{
+  width:76px;height:76px;margin:18px auto 10px;border-radius:50%;
+  display:grid;place-items:center;background:linear-gradient(#2e6a4a,#204c37);
+  border:5px solid #d8c47d;font-size:2.3rem
+}
+h1{font:900 clamp(2.45rem,10vw,4.4rem)/.95 Georgia,serif;margin:6px 0;color:#244b38}
+h1 span{color:#765736}
+.subtitle{margin:10px 0 20px;color:#657267;font-weight:800}
+.map{
+  display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:8px;
+  background:#e6debd;border:1px dashed #aa9760;border-radius:20px;padding:15px 10px;margin:18px 0
+}
+.stop{text-align:center;font-size:.68rem;font-weight:900;color:#6f6447}
+.stop .icon{width:46px;height:46px;margin:auto auto 5px;border-radius:50%;display:grid;place-items:center;background:#c8d7a7;border:2px solid #789061;font-size:1.45rem}
+.path{border-top:3px dashed #8d7949}
+.story{
+  background:#fffaf0;border-left:5px solid #76945d;border-radius:16px;padding:16px;text-align:left;
+  color:#4d5b50;line-height:1.55
+}
+.form{display:grid;gap:12px;margin-top:18px;text-align:left}
+.form label{font-weight:900;color:#485a4d;font-size:.87rem}
+.form input{
+  width:100%;min-height:52px;margin-top:7px;border-radius:14px;border:1px solid #cbbf9a;
+  background:#fffdf5;padding:0 14px;color:#294337;outline:none
+}
+.form input:focus{border-color:#65916b;box-shadow:0 0 0 3px rgba(101,145,107,.15)}
+.btn{
+  width:100%;min-height:54px;border:0;border-radius:16px;padding:12px 18px;font-weight:1000;cursor:pointer
+}
+.primary{background:linear-gradient(#3b7a56,#27563e);color:white;border:2px solid #214934;box-shadow:0 5px 0 #183b2a}
+.small-note{font-size:.78rem;color:#7d816e;margin:14px 0 0}
+
+/* GAME */
+#gameScreen{align-items:flex-start;flex-direction:column;gap:12px}
+.hud{width:100%;display:flex;justify-content:space-between;gap:10px;align-items:flex-start;color:#fff}
+.hud .name{font-weight:1000;text-shadow:0 2px 6px rgba(0,0,0,.25)}
+.hud .sub{font-size:.82rem;opacity:.8;margin-top:2px}
+.stats{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.stat{background:rgba(251,247,228,.95);color:#294337;border-radius:999px;padding:7px 10px;font-weight:900}
+.game-card{width:100%;overflow:hidden;padding:0}
+.location{
+  padding:15px 18px;background:linear-gradient(90deg,rgba(104,143,82,.12),rgba(65,145,155,.12)),#e8e0bf;
+  border-bottom:1px solid #cbbf98
+}
+.loc-top{display:flex;align-items:center;gap:10px}
+.loc-icon{width:46px;height:46px;border-radius:13px;background:#f8f2df;border:1px solid #c3b586;display:grid;place-items:center;font-size:1.5rem}
+.loc-top small{display:block;color:#7e775f;font-size:.67rem;text-transform:uppercase;font-weight:900}
+.loc-top strong{display:block;margin-top:2px;color:#3d5243}
+.progress{height:9px;background:#c9c0a1;border-radius:999px;overflow:hidden;margin-top:12px}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,#6d955e,#4ca5ae,#d1a63f);transition:width .3s}
+.question{padding:22px}
+.meta{display:flex;justify-content:space-between;color:#7b735a;font-size:.74rem;font-weight:1000;letter-spacing:.04em}
+.npc{width:66px;height:66px;border-radius:18px;background:#ebe1c1;border:2px solid #c5b37d;display:grid;place-items:center;font-size:2rem;margin-top:14px}
+.question h2{font:900 clamp(1.35rem,5vw,2rem)/1.35 Georgia,serif;color:#2c4739;margin:12px 0 6px}
+.hint{color:#758076;margin:0}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.answer{
+  min-height:64px;border-radius:15px;border:2px solid #c9b88b;background:linear-gradient(#fffdf4,#f0e8cf);
+  color:#3e4e43;font-weight:1000;box-shadow:0 4px 0 #b09f70;cursor:pointer
+}
+.answer.correct{background:#dcebcf;border-color:#6b9d60;color:#29523a;box-shadow:0 4px 0 #6b9d60}
+.answer.wrong{background:#f2d2c9;border-color:#bf6654;color:#773b31;box-shadow:0 4px 0 #bf6654}
+.answer:disabled{opacity:.9}
+.feedback{min-height:45px;padding-top:12px;font-weight:1000}
+.good{color:var(--good)}.bad{color:var(--bad)}.hidden{display:none!important}
+
+/* RESULT / TRANSITION */
+.big{font-size:4.2rem}
+.card h2{font:900 2rem/1.15 Georgia,serif;color:#2c4939;margin:14px 0 8px}
+.reward{display:flex;align-items:center;gap:12px;text-align:left;background:#ebe1bf;border:1px dashed #ad985e;border-radius:16px;padding:14px;margin:18px 0}
+.reward>span{font-size:2rem}.reward small{display:block;color:#81734e}.reward strong{display:block;margin-top:2px}
+.score{display:flex;justify-content:center;align-items:flex-end;gap:7px;margin:18px 0}
+.score b{font:900 4.8rem/1 Georgia,serif;color:#70542d}.score span{margin-bottom:9px;color:#7d755f}
+.rank{display:inline-block;padding:10px 15px;border-radius:999px;background:#e5d7a6;border:1px solid #b89f59;color:#655028;font-weight:1000}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.summary div{background:#f8f2df;border:1px solid #d4c7a4;border-radius:16px;padding:14px 8px}
+.summary span{font-size:1.35rem}.summary b{display:block;font-size:1.5rem;color:#3e5144}.summary small{display:block;color:#7b7564}
+.submit{background:linear-gradient(#d6ac46,#a77a22);color:#fff;border:2px solid #8c651e;box-shadow:0 5px 0 #6f501a}
+.submit:disabled{opacity:.75;cursor:default}
+.status{min-height:40px;padding:10px 4px 0;font-size:.9rem;font-weight:900;color:#766f5b}
+.status.success{color:#357143}.status.error{color:#a24638}.status.sending{color:#77662f}
+.restart{margin-top:10px}
+
+@media(max-width:520px){
+  .app{padding:10px}.screen{min-height:calc(100vh - 20px)}
+  .card{padding:18px;border-radius:23px}.answers{grid-template-columns:1fr}
+  .hud{flex-direction:column}.stats{justify-content:flex-start}
+  .map{gap:4px;padding-inline:5px}.stop{font-size:.59rem}.path{min-width:16px}
+  .question{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="bg-hills" aria-hidden="true">
+  <div class="hill a"></div><div class="hill b"></div><div class="hill c"></div>
+  <div class="tree t1"></div><div class="tree t2"></div>
+  <div class="leaf l1">🍃</div><div class="leaf l2">🍂</div><div class="leaf l3">🌿</div>
+</div>
+
+<main class="app">
+
+<section id="startScreen" class="screen active">
+  <div class="card center">
+    <div class="tag">Bahasa Melayu Tahun 5</div>
+    <div class="compass">🧭</div>
+    <h1>Ekspedisi<br><span>Rimba Kata</span></h1>
+    <p class="subtitle">Misi Sinonim & Antonim</p>
+
+    <div class="map">
+      <div class="stop"><div class="icon">🌿</div>Hutan Sinonim</div>
+      <div class="path"></div>
+      <div class="stop"><div class="icon">🌊</div>Sungai Antonim</div>
+      <div class="path"></div>
+      <div class="stop"><div class="icon">⛰️</div>Gunung Makna</div>
+    </div>
+
+    <div class="story">Rimba Kata telah diserang oleh <b>Raja Keliru</b>. Lengkapkan tiga misi untuk memulihkan kuasa perkataan!</div>
+
+    <form id="playerForm" class="form">
+      <label>Nama Pengembara<input id="playerName" placeholder="Contoh: Aiman" required></label>
+      <label>Kelas<input id="playerClass" placeholder="Contoh: 5 Ibnu Battuta" required></label>
+      <button class="btn primary" type="submit">MULAKAN EKSPEDISI 🧭</button>
+    </form>
+    <p class="small-note">Gunakan fon kepala untuk pengalaman yang lebih menarik.</p>
+  </div>
+</section>
+
+<section id="gameScreen" class="screen">
+  <div class="hud">
+    <div><div id="missionName" class="name"></div><div id="playerInfo" class="sub"></div></div>
+    <div class="stats">
+      <div class="stat">❤️ <b id="lives">3</b></div>
+      <div class="stat">⭐ <b id="score">0</b></div>
+      <div class="stat">🔥 <b id="combo">0</b></div>
+    </div>
+  </div>
+
+  <div class="card game-card">
+    <div class="location">
+      <div class="loc-top">
+        <div id="stageIcon" class="loc-icon">🌿</div>
+        <div><small>Lokasi semasa</small><strong id="stageLabel">HUTAN SINONIM</strong></div>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+    </div>
+
+    <div class="question">
+      <div class="meta"><span id="questionCount">Soalan 1 / 10</span><span id="missionType">SINONIM</span></div>
+      <div id="npc" class="npc">🧚</div>
+      <h2 id="questionText"></h2>
+      <p id="questionHint" class="hint"></p>
+      <div id="answerGrid" class="answers"></div>
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+      <button id="nextBtn" class="btn primary hidden" type="button">TERUSKAN ➜</button>
+    </div>
+  </div>
+</section>
+
+<section id="transitionScreen" class="screen">
+  <div class="card center">
+    <div id="transitionIcon" class="big">🌿✨</div>
+    <div class="tag">Kawasan Selesai</div>
+    <h2 id="transitionTitle">Hebat!</h2>
+    <p id="transitionText"></p>
+    <div class="reward"><span>🎒</span><div><small>GANJARAN</small><strong id="rewardText"></strong></div></div>
+    <button id="continueBtn" class="btn primary">MASUK KAWASAN SETERUSNYA</button>
+  </div>
+</section>
+
+<section id="resultScreen" class="screen">
+  <div class="card center">
+    <div class="big">🏆</div>
+    <div class="tag">Ekspedisi Tamat</div>
+    <h2>Rimba Kata Diselamatkan!</h2>
+    <p id="resultPlayer"></p>
+    <div class="score"><b id="finalScore">0</b><span>/100</span></div>
+    <div id="rankBadge" class="rank"></div>
+    <p id="resultMessage"></p>
+
+    <div class="summary">
+      <div><span>✅</span><b id="correctTotal">0</b><small>Betul</small></div>
+      <div><span>❌</span><b id="wrongTotal">0</b><small>Salah</small></div>
+      <div><span>🔥</span><b id="bestCombo">0</b><small>Combo Terbaik</small></div>
+    </div>
+
+    <button id="submitScoreBtn" class="btn submit">📤 HANTAR MARKAH KEPADA GURU</button>
+    <div id="submitStatus" class="status">Tekan butang di atas untuk menghantar markah.</div>
+    <button id="restartBtn" class="btn primary restart">🔄 ULANG EKSPEDISI</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+const SHEET_API_URL="https://script.google.com/macros/s/AKfycbzMrVGByp5BwsmtHQJPC-Pm6dtw7AWFR6zSqvdaywU5QEkS89G0yFqu3cqjlm7twaP0/exec";
+
+const missions=[
+{
+ name:"Misi 1 — Hutan Sinonim",stage:"HUTAN SINONIM",type:"SINONIM",icon:"🌿",npc:"🧚",
+ hint:"Pilih perkataan yang sama atau hampir sama maksud.",reward:"Daun Hikmah + 1 nyawa",
+ q:[
+ ["Apakah sinonim bagi “gembira”?","riang",["sedih","riang","marah","sunyi"]],
+ ["Apakah sinonim bagi “cantik”?","indah",["hodoh","indah","keras","gelap"]],
+ ["Apakah sinonim bagi “bijak”?","pandai",["malas","lambat","pandai","lemah"]],
+ ["Apakah sinonim bagi “cepat”?","pantas",["pantas","perlahan","diam","jauh"]],
+ ["Apakah sinonim bagi “marah”?","murka",["ceria","murka","tenang","takut"]],
+ ["Apakah sinonim bagi “rajin”?","tekun",["tekun","lalai","degil","kasar"]],
+ ["Apakah sinonim bagi “besar”?","luas",["sempit","kecil","luas","nipis"]],
+ ["Apakah sinonim bagi “sunyi”?","sepi",["riuh","sepi","sibuk","cerah"]],
+ ["Apakah sinonim bagi “sukar”?","susah",["mudah","susah","ringan","senang"]],
+ ["Apakah sinonim bagi “membantu”?","menolong",["menghalang","menolong","memarahi","menjauh"]]
+ ]
+},
+{
+ name:"Misi 2 — Sungai Antonim",stage:"SUNGAI ANTONIM",type:"ANTONIM",icon:"🌊",npc:"🧜‍♀️",
+ hint:"Pilih perkataan yang berlawanan maksud.",reward:"Kristal Air + 1 nyawa",
+ q:[
+ ["Apakah antonim bagi “tinggi”?","rendah",["rendah","besar","jauh","panjang"]],
+ ["Apakah antonim bagi “panas”?","sejuk",["hangat","sejuk","kering","terik"]],
+ ["Apakah antonim bagi “awal”?","lewat",["cepat","mula","lewat","segera"]],
+ ["Apakah antonim bagi “keras”?","lembut",["kuat","tajam","lembut","tebal"]],
+ ["Apakah antonim bagi “berani”?","takut",["takut","gagah","yakin","hebat"]],
+ ["Apakah antonim bagi “rajin”?","malas",["tekun","malas","aktif","cekap"]],
+ ["Apakah antonim bagi “bersih”?","kotor",["kemas","kotor","cantik","wangi"]],
+ ["Apakah antonim bagi “masuk”?","keluar",["naik","keluar","duduk","datang"]],
+ ["Apakah antonim bagi “hidup”?","mati",["sihat","mati","bangun","aktif"]],
+ ["Apakah antonim bagi “jauh”?","dekat",["tinggi","dekat","luas","panjang"]]
+ ]
+},
+{
+ name:"Misi 3 — Gunung Makna",stage:"GUNUNG MAKNA",type:"BOSS BATTLE",icon:"⛰️",npc:"👹",
+ hint:"Baca konteks ayat dengan teliti.",reward:"Mahkota Rimba Kata",
+ q:[
+ ["Aisyah sangat gembira menerima hadiah. Sinonim “gembira” ialah...","riang",["riang","muram","takut","marah"]],
+ ["Laluan itu sangat sempit. Antonim “sempit” ialah...","luas",["kecil","luas","pendek","gelap"]],
+ ["Hakim seorang murid yang bijak. Sinonim “bijak” ialah...","pandai",["lemah","pandai","degil","malas"]],
+ ["Air teh itu masih panas. Antonim “panas” ialah...","sejuk",["hangat","sejuk","pekat","manis"]],
+ ["Suasana di perpustakaan itu sunyi. Sinonim “sunyi” ialah...","sepi",["bising","sepi","sibuk","ceria"]],
+ ["Amir tiba awal ke sekolah. Antonim “awal” ialah...","lewat",["cepat","lewat","segera","mula"]],
+ ["Nadia rajin menyiapkan latihan. Sinonim “rajin” ialah...","tekun",["malas","tekun","lemah","kasar"]],
+ ["Bilik itu sangat bersih. Antonim “bersih” ialah...","kotor",["kemas","cantik","kotor","wangi"]],
+ ["Bas itu bergerak dengan cepat. Sinonim “cepat” ialah...","pantas",["perlahan","pantas","berhenti","lambat"]],
+ ["Budak itu berani tampil ke hadapan. Antonim “berani” ialah...","takut",["gagah","yakin","takut","kuat"]]
+ ]
+}
+];
+
+const $=id=>document.getElementById(id);
+const screens={start:$("startScreen"),game:$("gameScreen"),transition:$("transitionScreen"),result:$("resultScreen")};
+let player={name:"",cls:""},mi=0,qi=0,score=0,lives=3,combo=0,best=0,correct=0,wrong=0,answered=false,finalScore=0,submitted=false;
+
+function show(k){Object.values(screens).forEach(s=>s.classList.remove("active"));screens[k].classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function tone(f,d=.1,t="triangle"){try{let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.type=t;g.gain.value=.04;o.connect(g);g.connect(c.destination);o.start();setTimeout(()=>{o.stop();c.close()},d*1000)}catch(e){}}
+function goodSound(){[520,690,870].forEach((f,i)=>setTimeout(()=>tone(f),i*90))}
+function badSound(){tone(170,.18,"sawtooth")}
+function reset(){
+ mi=qi=score=combo=best=correct=wrong=0;lives=3;answered=false;finalScore=0;submitted=false;
+ missions.forEach(m=>m.q=shuffle(m.q));
+ $("submitScoreBtn").disabled=false;$("submitScoreBtn").textContent="📤 HANTAR MARKAH KEPADA GURU";
+ $("submitStatus").textContent="Tekan butang di atas untuk menghantar markah.";$("submitStatus").className="status";
+}
+function render(){
+ answered=false;let m=missions[mi],q=m.q[qi];
+ $("missionName").textContent=m.name;$("playerInfo").textContent=`${player.name} • ${player.cls}`;
+ $("stageIcon").textContent=m.icon;$("stageLabel").textContent=m.stage;$("missionType").textContent=m.type;$("npc").textContent=m.npc;
+ $("questionCount").textContent=`Soalan ${qi+1} / ${m.q.length}`;$("questionText").textContent=q[0];$("questionHint").textContent=m.hint;
+ $("lives").textContent=lives;$("score").textContent=score;$("combo").textContent=combo;
+ $("feedback").textContent="";$("feedback").className="feedback";$("nextBtn").classList.add("hidden");
+ const total=missions.reduce((n,x)=>n+x.q.length,0),before=missions.slice(0,mi).reduce((n,x)=>n+x.q.length,0);
+ $("progressBar").style.width=`${((before+qi)/total)*100}%`;
+ const box=$("answerGrid");box.innerHTML="";
+ shuffle(q[2]).forEach(opt=>{let b=document.createElement("button");b.className="answer";b.textContent=opt;b.addEventListener("click",()=>answer(b,opt,q[1]));box.appendChild(b)})
+}
+function answer(btn,opt,ans){
+ if(answered)return;answered=true;let bs=[...document.querySelectorAll(".answer")];bs.forEach(b=>b.disabled=true);
+ if(opt===ans){
+  btn.classList.add("correct");combo++;best=Math.max(best,combo);let bonus=Math.min(combo-1,5)*2;score+=10+bonus;correct++;
+  $("feedback").textContent=bonus?`✅ Tepat! +10 mata +${bonus} bonus combo.`:"✅ Tepat! Jejak ekspedisi diteruskan.";$("feedback").classList.add("good");goodSound();
+ }else{
+  btn.classList.add("wrong");bs.forEach(b=>{if(b.textContent===ans)b.classList.add("correct")});wrong++;combo=0;lives=Math.max(0,lives-1);
+  $("feedback").textContent=`❌ Belum tepat. Jawapan betul: ${ans}.`;$("feedback").classList.add("bad");badSound();
+ }
+ $("lives").textContent=lives;$("score").textContent=score;$("combo").textContent=combo;$("nextBtn").classList.remove("hidden");
+}
+function next(){
+ let m=missions[mi];
+ if(qi<m.q.length-1){qi++;render();return}
+ if(mi<missions.length-1){
+  $("transitionIcon").textContent=mi===0?"🌿✨":"🌊💎";
+  $("transitionTitle").textContent=mi===0?"Gerbang Daun Terbuka!":"Sungai Antonim Berjaya Diseberangi!";
+  $("transitionText").textContent=missions[mi+1].hint;$("rewardText").textContent=m.reward;show("transition");return
+ }
+ finish();
+}
+function finish(){
+ let total=correct+wrong,accuracy=total?Math.round(correct/total*100):0;
+ finalScore=Math.min(100,Math.round(accuracy*.85+Math.min(best*2,20)*.75));
+ let rank="Pengembara Rimba",msg="Teruskan berlatih. Setiap ekspedisi menjadikan penguasaan kata kamu semakin kuat.";
+ if(finalScore>=90){rank="Legenda Rimba Kata";msg="Luar biasa! Kamu benar-benar menguasai sinonim dan antonim."}
+ else if(finalScore>=75){rank="Wira Rimba Kata";msg="Hebat! Raja Keliru berjaya ditewaskan dan Rimba Kata kembali aman."}
+ else if(finalScore>=60){rank="Penjaga Rimba Kata";msg="Bagus! Sedikit lagi untuk mencapai tahap Wira Rimba Kata."}
+ $("resultPlayer").textContent=`${player.name} • ${player.cls}`;$("finalScore").textContent=finalScore;$("rankBadge").textContent=rank;$("resultMessage").textContent=msg;
+ $("correctTotal").textContent=correct;$("wrongTotal").textContent=wrong;$("bestCombo").textContent=best;show("result");
+}
+async function submitScore(){
+ if(submitted)return;
+ let btn=$("submitScoreBtn"),status=$("submitStatus");
+ btn.disabled=true;btn.textContent="⏳ MENGHANTAR...";status.textContent="Sedang menghantar keputusan...";status.className="status sending";
+ try{
+  await fetch(SHEET_API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
+   body:JSON.stringify({nama:player.name,kelas:player.cls,markah:finalScore,betul:correct,salah:wrong,combo:best})});
+  submitted=true;btn.textContent="✅ MARKAH TELAH DIHANTAR";status.textContent="✅ Markah telah dihantar kepada guru.";status.className="status success";goodSound();
+ }catch(e){
+  btn.disabled=false;btn.textContent="🔁 CUBA HANTAR SEMULA";status.textContent="❌ Gagal menghantar. Cuba semula.";status.className="status error";badSound();
+ }
+}
+$("playerForm").addEventListener("submit",e=>{e.preventDefault();player={name:$("playerName").value.trim(),cls:$("playerClass").value.trim()};if(!player.name||!player.cls)return;reset();show("game");render()});
+$("nextBtn").addEventListener("click",next);
+$("continueBtn").addEventListener("click",()=>{mi++;qi=0;lives=Math.min(3,lives+1);show("game");render()});
+$("submitScoreBtn").addEventListener("click",submitScore);
+$("restartBtn").addEventListener("click",()=>{reset();show("start")});
+</script>
+</body>
+</html>
