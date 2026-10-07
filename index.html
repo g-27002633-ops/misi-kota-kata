@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111827" />
+  <title>Misi Kota Kata — Sinonim & Antonim Tahun 5</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section id="startScreen" class="screen active">
+      <div class="hero-card">
+        <div class="badge">Bahasa Melayu Tahun 5</div>
+        <h1>Misi Kota Kata</h1>
+        <p class="subtitle">Sinonim vs Antonim</p>
+
+        <div class="story-box">
+          <p>Kota Kata telah diserang oleh Raja Keliru! Selesaikan 3 misi untuk memulihkan kuasa perkataan.</p>
+        </div>
+
+        <form id="playerForm" class="player-form">
+          <label>
+            Nama Murid
+            <input id="playerName" type="text" maxlength="40" placeholder="Contoh: Aiman" required />
+          </label>
+          <label>
+            Kelas
+            <input id="playerClass" type="text" maxlength="30" placeholder="Contoh: 5 Ibnu Battuta" required />
+          </label>
+          <button class="btn primary" type="submit">⚔️ Mula Misi</button>
+        </form>
+
+        <p class="tiny">Tip: Gunakan fon kepala jika mahu menikmati efek bunyi.</p>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <header class="topbar">
+        <div>
+          <div id="missionName" class="mission-name">Misi 1</div>
+          <div id="playerInfo" class="player-info"></div>
+        </div>
+        <div class="stats">
+          <span>❤️ <b id="lives">3</b></span>
+          <span>⭐ <b id="score">0</b></span>
+          <span>🔥 <b id="combo">0</b></span>
+        </div>
+      </header>
+
+      <div class="progress-wrap" aria-label="Kemajuan permainan">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <section class="game-card">
+        <div id="stageLabel" class="stage-label">SINONIM</div>
+        <div id="questionCount" class="question-count">Soalan 1 / 10</div>
+        <h2 id="questionText">Soalan akan muncul di sini.</h2>
+        <p id="questionHint" class="question-hint"></p>
+
+        <div id="answerGrid" class="answer-grid"></div>
+
+        <div id="feedback" class="feedback" aria-live="polite"></div>
+        <button id="nextBtn" class="btn primary hidden" type="button">Seterusnya ➜</button>
+      </section>
+    </section>
+
+    <section id="transitionScreen" class="screen">
+      <div class="hero-card">
+        <div id="transitionIcon" class="big-icon">🗺️</div>
+        <div id="transitionBadge" class="badge">Misi Selesai</div>
+        <h2 id="transitionTitle">Bagus!</h2>
+        <p id="transitionText"></p>
+        <button id="continueBtn" class="btn primary" type="button">Teruskan Misi</button>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="hero-card result-card">
+        <div class="big-icon">🏆</div>
+        <div class="badge">Misi Tamat</div>
+        <h2 id="resultTitle">Tahniah!</h2>
+        <p id="resultPlayer"></p>
+
+        <div class="result-score">
+          <span id="finalScore">0</span>
+          <small>/ 100</small>
+        </div>
+
+        <div id="rankBadge" class="rank-badge">Wira Kata</div>
+        <p id="resultMessage"></p>
+
+        <div class="result-stats">
+          <div><b id="correctTotal">0</b><span>Betul</span></div>
+          <div><b id="wrongTotal">0</b><span>Salah</span></div>
+          <div><b id="bestCombo">0</b><span>Combo Terbaik</span></div>
+        </div>
+
+        <button id="restartBtn" class="btn primary" type="button">🔄 Main Semula</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
