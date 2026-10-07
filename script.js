@@ -2,312 +2,223 @@ const SHEET_API_URL="https://script.google.com/macros/s/AKfycbzMrVGByp5BwsmtHQJP
 
 const missions=[
 {
- name:"Hutan Sinonim",type:"MISI 1 • SINONIM",npc:"🧚",zone:"forest-zone",
- rewardTitle:"Gerbang Daun Terbuka!",rewardIcon:"🌿✨",loot:"+1 nyawa • Daun Hikmah",
+ name:"Misi 1 — Hutan Sinonim",stage:"HUTAN SINONIM",type:"SINONIM",icon:"🌿",totem:"🧚",
+ intro:"Cari perkataan yang sama atau hampir sama maksud.",reward:"Daun Hikmah + 1 nyawa",
  questions:[
- ["Sinonim bagi “gembira” ialah...","riang",["sedih","riang","marah","sunyi"]],
- ["Sinonim bagi “cantik” ialah...","indah",["hodoh","indah","keras","gelap"]],
- ["Sinonim bagi “bijak” ialah...","pandai",["malas","lambat","pandai","lemah"]],
- ["Sinonim bagi “cepat” ialah...","pantas",["pantas","perlahan","diam","jauh"]],
- ["Sinonim bagi “marah” ialah...","murka",["ceria","murka","tenang","takut"]],
- ["Sinonim bagi “rajin” ialah...","tekun",["tekun","lalai","degil","kasar"]],
- ["Sinonim bagi “besar” ialah...","luas",["sempit","kecil","luas","nipis"]],
- ["Sinonim bagi “sunyi” ialah...","sepi",["riuh","sepi","sibuk","cerah"]],
- ["Sinonim bagi “sukar” ialah...","susah",["mudah","susah","ringan","senang"]],
- ["Sinonim bagi “membantu” ialah...","menolong",["menghalang","menolong","memarahi","menjauh"]]
+ ["Apakah sinonim bagi perkataan “gembira”?","riang",["sedih","riang","marah","sunyi"]],
+ ["Apakah sinonim bagi perkataan “cantik”?","indah",["hodoh","indah","keras","gelap"]],
+ ["Apakah sinonim bagi perkataan “bijak”?","pandai",["malas","lambat","pandai","lemah"]],
+ ["Apakah sinonim bagi perkataan “cepat”?","pantas",["pantas","perlahan","diam","jauh"]],
+ ["Apakah sinonim bagi perkataan “marah”?","murka",["ceria","murka","tenang","takut"]],
+ ["Apakah sinonim bagi perkataan “rajin”?","tekun",["tekun","lalai","degil","kasar"]],
+ ["Apakah sinonim bagi perkataan “besar”?","luas",["sempit","kecil","luas","nipis"]],
+ ["Apakah sinonim bagi perkataan “sunyi”?","sepi",["riuh","sepi","sibuk","cerah"]],
+ ["Apakah sinonim bagi perkataan “sukar”?","susah",["mudah","susah","ringan","senang"]],
+ ["Apakah sinonim bagi perkataan “membantu”?","menolong",["menghalang","menolong","memarahi","menjauh"]]
  ]
 },
 {
- name:"Sungai Antonim",type:"MISI 2 • ANTONIM",npc:"🧜‍♀️",zone:"river-zone",
- rewardTitle:"Sungai Antonim Ditawan!",rewardIcon:"🌊💎",loot:"+1 nyawa • Kristal Air",
+ name:"Misi 2 — Sungai Antonim",stage:"SUNGAI ANTONIM",type:"ANTONIM",icon:"🌊",totem:"🧜‍♀️",
+ intro:"Cari perkataan yang berlawanan maksud.",reward:"Kristal Air + 1 nyawa",
  questions:[
- ["Antonim bagi “tinggi” ialah...","rendah",["rendah","besar","jauh","panjang"]],
- ["Antonim bagi “panas” ialah...","sejuk",["hangat","sejuk","kering","terik"]],
- ["Antonim bagi “awal” ialah...","lewat",["cepat","mula","lewat","segera"]],
- ["Antonim bagi “keras” ialah...","lembut",["kuat","tajam","lembut","tebal"]],
- ["Antonim bagi “berani” ialah...","takut",["takut","gagah","yakin","hebat"]],
- ["Antonim bagi “rajin” ialah...","malas",["tekun","malas","aktif","cekap"]],
- ["Antonim bagi “bersih” ialah...","kotor",["kemas","kotor","cantik","wangi"]],
- ["Antonim bagi “masuk” ialah...","keluar",["naik","keluar","duduk","datang"]],
- ["Antonim bagi “hidup” ialah...","mati",["sihat","mati","bangun","aktif"]],
- ["Antonim bagi “jauh” ialah...","dekat",["tinggi","dekat","luas","panjang"]]
+ ["Apakah antonim bagi perkataan “tinggi”?","rendah",["rendah","besar","jauh","panjang"]],
+ ["Apakah antonim bagi perkataan “panas”?","sejuk",["hangat","sejuk","kering","terik"]],
+ ["Apakah antonim bagi perkataan “awal”?","lewat",["cepat","mula","lewat","segera"]],
+ ["Apakah antonim bagi perkataan “keras”?","lembut",["kuat","tajam","lembut","tebal"]],
+ ["Apakah antonim bagi perkataan “berani”?","takut",["takut","gagah","yakin","hebat"]],
+ ["Apakah antonim bagi perkataan “rajin”?","malas",["tekun","malas","aktif","cekap"]],
+ ["Apakah antonim bagi perkataan “bersih”?","kotor",["kemas","kotor","cantik","wangi"]],
+ ["Apakah antonim bagi perkataan “masuk”?","keluar",["naik","keluar","duduk","datang"]],
+ ["Apakah antonim bagi perkataan “hidup”?","mati",["sihat","mati","bangun","aktif"]],
+ ["Apakah antonim bagi perkataan “jauh”?","dekat",["tinggi","dekat","luas","panjang"]]
  ]
 },
 {
- name:"Gunung Makna",type:"MISI 3 • BOSS BATTLE",npc:"👹",zone:"boss-zone",
- rewardTitle:"Raja Keliru Tewas!",rewardIcon:"👑⚔️",loot:"Mahkota Rimba Kata",
+ name:"Misi 3 — Gunung Makna",stage:"GUNUNG MAKNA",type:"BOSS BATTLE",icon:"⛰️",totem:"👹",
+ intro:"Kenal pasti sinonim atau antonim berdasarkan konteks ayat.",reward:"Mahkota Rimba Kata",
  questions:[
- ["Aisyah sangat gembira. Sinonim “gembira” ialah...","riang",["riang","muram","takut","marah"]],
- ["Laluan itu sempit. Antonim “sempit” ialah...","luas",["kecil","luas","pendek","gelap"]],
- ["Hakim murid yang bijak. Sinonim “bijak” ialah...","pandai",["lemah","pandai","degil","malas"]],
- ["Air teh itu panas. Antonim “panas” ialah...","sejuk",["hangat","sejuk","pekat","manis"]],
- ["Perpustakaan itu sunyi. Sinonim “sunyi” ialah...","sepi",["bising","sepi","sibuk","ceria"]],
- ["Amir tiba awal. Antonim “awal” ialah...","lewat",["cepat","lewat","segera","mula"]],
+ ["Aisyah sangat gembira menerima hadiah. Sinonim “gembira” ialah...","riang",["riang","muram","takut","marah"]],
+ ["Laluan itu sangat sempit. Antonim “sempit” ialah...","luas",["kecil","luas","pendek","gelap"]],
+ ["Hakim seorang murid yang bijak. Sinonim “bijak” ialah...","pandai",["lemah","pandai","degil","malas"]],
+ ["Air teh itu masih panas. Antonim “panas” ialah...","sejuk",["hangat","sejuk","pekat","manis"]],
+ ["Suasana di perpustakaan itu sunyi. Sinonim “sunyi” ialah...","sepi",["bising","sepi","sibuk","ceria"]],
+ ["Amir tiba awal ke sekolah. Antonim “awal” ialah...","lewat",["cepat","lewat","segera","mula"]],
  ["Nadia rajin menyiapkan latihan. Sinonim “rajin” ialah...","tekun",["malas","tekun","lemah","kasar"]],
  ["Bilik itu sangat bersih. Antonim “bersih” ialah...","kotor",["kemas","cantik","kotor","wangi"]],
- ["Bas bergerak dengan cepat. Sinonim “cepat” ialah...","pantas",["perlahan","pantas","berhenti","lambat"]],
- ["Budak itu berani ke hadapan. Antonim “berani” ialah...","takut",["gagah","yakin","takut","kuat"]]
+ ["Bas itu bergerak dengan cepat. Sinonim “cepat” ialah...","pantas",["perlahan","pantas","berhenti","lambat"]],
+ ["Budak itu berani tampil ke hadapan. Antonim “berani” ialah...","takut",["gagah","yakin","takut","kuat"]]
  ]
 }
 ];
 
 const $=id=>document.getElementById(id);
-let player={name:"",cls:""},mi=0,qi=0,score=0,life=3,combo=0,best=0,correct=0,wrong=0,locked=false;
-let finalScoreValue=0;
-let scoreSubmitted=false;
+const screens={start:$("startScreen"),game:$("gameScreen"),transition:$("transitionScreen"),result:$("resultScreen")};
 
-const screens={start:$("start"),game:$("game"),transition:$("transition"),result:$("result")};
+let player={name:"",cls:""};
+let missionIndex=0,questionIndex=0,score=0,lives=3,combo=0,bestCombo=0,correct=0,wrong=0,answered=false;
+let finalScoreValue=0,scoreSubmitted=false;
 
-function show(id){
+function showScreen(name){
   Object.values(screens).forEach(s=>s.classList.remove("active"));
-  screens[id].classList.add("active");
-  window.scrollTo(0,0);
+  screens[name].classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function shuffle(a){
-  a=[...a];
-  for(let i=a.length-1;i>0;i--){
-    let j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
+function shuffle(arr){
+  const copy=[...arr];
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
   }
-  return a;
+  return copy;
 }
 
-function tone(f,d=.12,type="triangle"){
+function tone(freq=440,duration=.12,type="sine"){
   try{
-    let c=new(window.AudioContext||window.webkitAudioContext)(),
-        o=c.createOscillator(),
-        g=c.createGain();
-    o.frequency.value=f;
-    o.type=type;
-    g.gain.value=.04;
-    o.connect(g);
-    g.connect(c.destination);
-    o.start();
-    setTimeout(()=>{o.stop();c.close()},d*1000);
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator(),gain=ctx.createGain();
+    osc.type=type;osc.frequency.value=freq;gain.gain.value=.045;
+    osc.connect(gain);gain.connect(ctx.destination);osc.start();
+    setTimeout(()=>{osc.stop();ctx.close()},duration*1000);
   }catch(e){}
 }
 
-function goodSound(){
-  [520,700,900].forEach((f,i)=>setTimeout(()=>tone(f,.1),i*90));
-}
+function playCorrect(){tone(520,.10,"triangle");setTimeout(()=>tone(690,.10,"triangle"),100);setTimeout(()=>tone(870,.12,"triangle"),195)}
+function playWrong(){tone(180,.2,"sawtooth")}
+function playVictory(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.16,"triangle"),i*130))}
 
-function badSound(){
-  tone(170,.2,"sawtooth");
-}
-
-function reset(){
-  mi=0;
-  qi=0;
-  score=0;
-  life=3;
-  combo=0;
-  best=0;
-  correct=0;
-  wrong=0;
-  locked=false;
-  finalScoreValue=0;
-  scoreSubmitted=false;
-
+function resetGame(){
+  missionIndex=0;questionIndex=0;score=0;lives=3;combo=0;bestCombo=0;correct=0;wrong=0;answered=false;
+  finalScoreValue=0;scoreSubmitted=false;
   missions.forEach(m=>m.questions=shuffle(m.questions));
-
-  if($("submitStatus")){
-    $("submitStatus").textContent="";
-    $("submitStatus").className="submit-status";
-  }
-
-  if($("submitScoreBtn")){
-    $("submitScoreBtn").disabled=false;
-    $("submitScoreBtn").textContent="📤 HANTAR MARKAH KEPADA GURU";
-  }
+  $("submitScoreBtn").disabled=false;
+  $("submitScoreBtn").textContent="📤 HANTAR MARKAH KEPADA GURU";
+  $("submitStatus").textContent="Tekan butang di atas untuk menghantar markah.";
+  $("submitStatus").className="submit-status";
 }
 
-function updateNodes(){
-  ["node1","node2","node3"].forEach((id,i)=>{
-    let n=$(id);
-    n.classList.toggle("done",i<mi);
-    n.classList.toggle("active",i===mi);
-  });
+function startGame(){
+  resetGame();
+  $("playerInfo").textContent=`${player.name} • ${player.cls}`;
+  showScreen("game");
+  renderQuestion();
 }
 
-function render(){
-  locked=false;
+function renderQuestion(){
+  answered=false;
+  const m=missions[missionIndex],q=m.questions[questionIndex];
 
-  let m=missions[mi],
-      q=m.questions[qi];
+  $("missionName").textContent=m.name;
+  $("stageIcon").textContent=m.icon;
+  $("stageLabel").textContent=m.stage;
+  $("missionType").textContent=m.type;
+  $("totem").textContent=m.totem;
+  $("questionCount").textContent=`Soalan ${questionIndex+1} / ${m.questions.length}`;
+  $("questionText").textContent=q[0];
+  $("questionHint").textContent=m.intro;
 
-  $("zoneScene").className="scene zone "+m.zone;
-  $("playerNameHud").textContent=player.name;
-  $("zoneName").textContent=m.name;
-
-  $("life").textContent=life;
+  $("lives").textContent=lives;
   $("score").textContent=score;
   $("combo").textContent=combo;
-
-  $("npcEmoji").textContent=m.npc;
-  $("stageType").textContent=m.type;
-  $("question").textContent=q[0];
-
-  $("hint").textContent=
-    mi===0
-      ?"Cari perkataan yang sama atau hampir sama maksud."
-      :mi===1
-      ?"Cari perkataan yang berlawanan maksud."
-      :"Baca ayat dan pilih jawapan terbaik.";
-
   $("feedback").textContent="";
   $("feedback").className="feedback";
   $("nextBtn").classList.add("hidden");
 
-  $("counter").textContent=`${qi+1} / ${m.questions.length}`;
+  const total=missions.reduce((n,x)=>n+x.questions.length,0);
+  const before=missions.slice(0,missionIndex).reduce((n,x)=>n+x.questions.length,0);
+  $("progressBar").style.width=`${((before+questionIndex)/total)*100}%`;
 
-  let total=missions.reduce((n,x)=>n+x.questions.length,0),
-      before=missions.slice(0,mi).reduce((n,x)=>n+x.questions.length,0);
-
-  $("progressFill").style.width=`${((before+qi)/total)*100}%`;
-
-  updateNodes();
-
-  let box=$("answers");
-  box.innerHTML="";
-
-  shuffle(q[2]).forEach(opt=>{
-    let b=document.createElement("button");
-    b.className="answer";
-    b.textContent=opt;
-    b.addEventListener("click",()=>answer(b,opt,q[1]));
-    box.appendChild(b);
+  const grid=$("answerGrid");
+  grid.innerHTML="";
+  shuffle(q[2]).forEach(option=>{
+    const btn=document.createElement("button");
+    btn.type="button";btn.className="answer-btn";btn.textContent=option;
+    btn.addEventListener("click",()=>selectAnswer(btn,option,q[1]));
+    grid.appendChild(btn);
   });
 }
 
-function answer(btn,opt,ans){
-  if(locked)return;
-  locked=true;
+function selectAnswer(btn,selected,answer){
+  if(answered)return;
+  answered=true;
+  const buttons=[...document.querySelectorAll(".answer-btn")];
+  buttons.forEach(b=>b.disabled=true);
 
-  let bs=[...document.querySelectorAll(".answer")];
-  bs.forEach(b=>b.disabled=true);
-
-  if(opt===ans){
+  if(selected===answer){
     btn.classList.add("correct");
-    combo++;
-    best=Math.max(best,combo);
-
-    let bonus=Math.min(combo-1,5)*2;
-    score+=10+bonus;
-    correct++;
-
-    $("feedback").textContent=
-      bonus
-        ?`✅ Tepat! +10 mata +${bonus} combo.`
-        :"✅ Tepat! Laluan terbuka.";
-
+    combo++;bestCombo=Math.max(bestCombo,combo);
+    const bonus=Math.min(combo-1,5)*2;
+    score+=10+bonus;correct++;
+    $("feedback").textContent=bonus?`✅ Tepat! +10 mata +${bonus} bonus combo.`:"✅ Tepat! Jejak ekspedisi diteruskan.";
     $("feedback").classList.add("good");
-    goodSound();
+    playCorrect();
   }else{
     btn.classList.add("wrong");
-
-    bs.forEach(b=>{
-      if(b.textContent===ans)b.classList.add("correct");
-    });
-
-    wrong++;
-    combo=0;
-    life=Math.max(0,life-1);
-
-    $("feedback").textContent=`❌ Belum tepat. Jawapan betul: ${ans}.`;
+    buttons.forEach(b=>{if(b.textContent===answer)b.classList.add("correct")});
+    wrong++;combo=0;lives=Math.max(0,lives-1);
+    $("feedback").textContent=`❌ Belum tepat. Jawapan yang betul ialah “${answer}”.`;
     $("feedback").classList.add("bad");
-    badSound();
+    playWrong();
   }
 
-  $("life").textContent=life;
-  $("score").textContent=score;
-  $("combo").textContent=combo;
-
+  $("lives").textContent=lives;$("score").textContent=score;$("combo").textContent=combo;
   $("nextBtn").classList.remove("hidden");
 }
 
-function next(){
-  let m=missions[mi];
-
-  if(qi<m.questions.length-1){
-    qi++;
-    render();
-    return;
+function advance(){
+  const m=missions[missionIndex];
+  if(questionIndex<m.questions.length-1){
+    questionIndex++;renderQuestion();return;
   }
-
-  if(mi<missions.length-1){
-    $("rewardIcon").textContent=m.rewardIcon;
-    $("rewardTitle").textContent=m.rewardTitle;
-    $("rewardText").textContent=`Kamu berjaya menamatkan ${m.name}.`;
-    $("lootText").textContent=m.loot;
-    show("transition");
-    return;
+  if(missionIndex<missions.length-1){
+    $("transitionTitle").textContent=missionIndex===0?"Gerbang Daun Terbuka!":"Sungai Antonim Berjaya Diseberangi!";
+    $("transitionText").textContent=missions[missionIndex+1].intro;
+    $("transitionIcon").textContent=missionIndex===0?"🌿✨":"🌊💎";
+    $("rewardText").textContent=m.reward;
+    showScreen("transition");return;
   }
-
-  finish();
+  finishGame();
 }
 
-function continueGame(){
-  mi++;
-  qi=0;
-  life=Math.min(3,life+1);
-  show("game");
-  render();
+function continueMission(){
+  missionIndex++;questionIndex=0;lives=Math.min(3,lives+1);
+  showScreen("game");renderQuestion();
 }
 
-function finish(){
-  let total=correct+wrong;
-  let accuracy=total ? Math.round(correct/total*100) : 0;
+function finishGame(){
+  const total=correct+wrong;
+  const accuracy=total?Math.round((correct/total)*100):0;
+  const comboBonus=Math.min(bestCombo*2,20);
+  finalScoreValue=Math.min(100,Math.round(accuracy*.85+comboBonus*.75));
 
-  finalScoreValue=Math.min(
-    100,
-    Math.round(
-      accuracy*.88 +
-      Math.min(best*2,16)*.75
-    )
-  );
+  let rank="Pengembara Rimba";
+  let msg="Teruskan berlatih. Setiap ekspedisi menjadikan penguasaan kata kamu semakin kuat.";
+  if(finalScoreValue>=90){rank="Legenda Rimba Kata";msg="Luar biasa! Kamu benar-benar menguasai sinonim dan antonim."}
+  else if(finalScoreValue>=75){rank="Wira Rimba Kata";msg="Hebat! Raja Keliru berjaya ditewaskan dan Rimba Kata kembali aman."}
+  else if(finalScoreValue>=60){rank="Penjaga Rimba Kata";msg="Bagus! Sedikit lagi untuk mencapai tahap Wira Rimba Kata."}
 
-  let rank="Pengembara Kata";
-  let msg="Teruskan latihan untuk menguasai rimba perkataan.";
-
-  if(finalScoreValue>=90){
-    rank="Legenda Rimba Kata";
-    msg="Luar biasa! Kamu menguasai sinonim dan antonim dengan sangat baik.";
-  }else if(finalScoreValue>=75){
-    rank="Wira Rimba Kata";
-    msg="Hebat! Raja Keliru berjaya ditewaskan.";
-  }else if(finalScoreValue>=60){
-    rank="Penjaga Rimba Kata";
-    msg="Bagus! Sedikit lagi untuk menjadi Wira Rimba Kata.";
-  }
-
-  $("finalPlayer").textContent=`${player.name} • ${player.cls}`;
+  $("resultPlayer").textContent=`${player.name} • ${player.cls}`;
   $("finalScore").textContent=finalScoreValue;
-  $("rank").textContent=rank;
-  $("finalMsg").textContent=msg;
-  $("correct").textContent=correct;
-  $("wrong").textContent=wrong;
-  $("bestCombo").textContent=best;
+  $("rankBadge").textContent=rank;
+  $("resultMessage").textContent=msg;
+  $("correctTotal").textContent=correct;
+  $("wrongTotal").textContent=wrong;
+  $("bestCombo").textContent=bestCombo;
 
   scoreSubmitted=false;
-  $("submitStatus").textContent="Tekan butang di bawah untuk menghantar markah.";
-  $("submitStatus").className="submit-status";
   $("submitScoreBtn").disabled=false;
   $("submitScoreBtn").textContent="📤 HANTAR MARKAH KEPADA GURU";
+  $("submitStatus").textContent="Tekan butang di atas untuk menghantar markah.";
+  $("submitStatus").className="submit-status";
 
-  show("result");
-
-  [523,659,784,1047].forEach((f,i)=>
-    setTimeout(()=>tone(f,.16),i*120)
-  );
+  playVictory();
+  showScreen("result");
 }
 
 async function submitScore(){
   if(scoreSubmitted)return;
 
-  const btn=$("submitScoreBtn");
-  const status=$("submitStatus");
-
+  const btn=$("submitScoreBtn"),status=$("submitStatus");
   btn.disabled=true;
   btn.textContent="⏳ MENGHANTAR...";
   status.textContent="Sedang menghantar keputusan...";
@@ -319,16 +230,14 @@ async function submitScore(){
     markah:finalScoreValue,
     betul:correct,
     salah:wrong,
-    combo:best
+    combo:bestCombo
   };
 
   try{
     await fetch(SHEET_API_URL,{
       method:"POST",
       mode:"no-cors",
-      headers:{
-        "Content-Type":"text/plain;charset=utf-8"
-      },
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
       body:JSON.stringify(payload)
     });
 
@@ -336,40 +245,27 @@ async function submitScore(){
     btn.textContent="✅ MARKAH TELAH DIHANTAR";
     status.textContent="✅ Markah telah dihantar kepada guru.";
     status.className="submit-status success";
-    goodSound();
-
-  }catch(error){
-    console.error("Gagal menghantar markah:",error);
-
+    playCorrect();
+  }catch(err){
+    console.error(err);
     scoreSubmitted=false;
     btn.disabled=false;
     btn.textContent="🔁 CUBA HANTAR SEMULA";
-    status.textContent="❌ Markah gagal dihantar. Semak sambungan internet dan cuba lagi.";
+    status.textContent="❌ Markah gagal dihantar. Semak internet dan cuba lagi.";
     status.className="submit-status error";
-    badSound();
+    playWrong();
   }
 }
 
 $("playerForm").addEventListener("submit",e=>{
   e.preventDefault();
-
-  player={
-    name:$("nameInput").value.trim(),
-    cls:$("classInput").value.trim()
-  };
-
-  if(!player.name||!player.cls)return;
-
-  reset();
-  show("game");
-  render();
+  const name=$("playerName").value.trim(),cls=$("playerClass").value.trim();
+  if(!name||!cls)return;
+  player={name,cls};
+  startGame();
 });
 
-$("nextBtn").addEventListener("click",next);
-$("continueBtn").addEventListener("click",continueGame);
+$("nextBtn").addEventListener("click",advance);
+$("continueBtn").addEventListener("click",continueMission);
 $("submitScoreBtn").addEventListener("click",submitScore);
-
-$("restartBtn").addEventListener("click",()=>{
-  reset();
-  show("start");
-});
+$("restartBtn").addEventListener("click",()=>{resetGame();showScreen("start")});

@@ -1,12 +1,19 @@
-RIMBA KATA - FINAL SUBMIT VERSION
+RIMBA KATA PREMIUM FINAL
 
-1. Replace index.html dengan fail ini.
-2. Replace script.js dengan fail ini.
-3. Buka style.css lama dan paste kandungan ADD-TO-style.css di bahagian paling bawah.
+PENTING:
+Jangan campur dengan fail versi lama.
+
+1. Replace index.html sepenuhnya.
+2. Replace style.css sepenuhnya.
+3. Replace script.js sepenuhnya.
 4. Commit changes.
 5. Tunggu GitHub Pages update.
-6. Main sampai tamat.
-7. Tekan HANTAR MARKAH KEPADA GURU.
-8. Semak Google Sheet.
+6. Refresh menggunakan Ctrl + F5.
 
-URL Apps Script sudah dimasukkan dalam script.js.
+Versi ini sudah termasuk:
+- design natural premium yang matching
+- 30 soalan
+- 3 misi
+- markah, nyawa, combo
+- butang HANTAR MARKAH KEPADA GURU
+- URL Apps Script sudah dimasukkan
